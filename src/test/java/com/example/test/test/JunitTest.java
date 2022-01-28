@@ -1,13 +1,8 @@
 package com.example.test.test;
 
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -21,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * */
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = WebTestConfig.class)
+@ContextConfiguration(classes = SameAppConfig.class)
 public class JunitTest {
 
     static Set<JunitTest> testObjects = new HashSet<>();

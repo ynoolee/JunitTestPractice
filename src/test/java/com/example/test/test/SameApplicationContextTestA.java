@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = WebTestConfig.class)
+@ContextConfiguration(classes = SameAppConfig.class)
 @RequiredArgsConstructor
 public class SameApplicationContextTestA {
     final ApplicationContext applicationContext;
