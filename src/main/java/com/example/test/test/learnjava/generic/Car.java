@@ -1,4 +1,4 @@
-package com.example.test.test.generic;
+package com.example.test.test.learnjava.generic;
 
 public interface Car {
     String getName();
