@@ -19,4 +19,14 @@ public class GenericTest {
         MyCollection<Car> collection = new MyCollection<>();
         Assertions.assertEquals(carName, GenericUse.getGenericCollection(collection,bus));
     }
+
+    @Test
+    @DisplayName("일련의 T타입 변수들을 받아, max값을 린턴하는지 테스트")
+    public void testGetMax(){
+        // String class 의 compareTo() 메소드를 보니 -> byte 값을 비교하고 있었음 -> 영문자라면 ascii 코드값을 비교하려나? ->
+        Assertions.assertEquals(GenericUse.getMax(1,2,3),3);
+        Assertions.assertEquals(GenericUse.getMax(3,1,2),3);
+        Assertions.assertEquals(GenericUse.getMax("a","c","b"),"c");
+
+    }
 }

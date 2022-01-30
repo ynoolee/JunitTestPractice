@@ -1,7 +1,15 @@
 package com.example.test.test.learnjava.generic;
 
 public class GenericUse {
+    // 현재거 - 옆에거 빼는 거
+    public static <T extends Comparable<T>> T getMax(T ... a) {
 
+        T max = a[0];
+        for (T temp : a) {
+            if (temp.compareTo(max) > 0) max = temp;
+        }
+        return max;
+    }
     public void wildCardMethod(MyCollection<?> collection){
 
     }
