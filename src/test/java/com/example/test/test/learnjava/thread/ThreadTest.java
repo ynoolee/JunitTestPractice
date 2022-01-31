@@ -9,7 +9,7 @@ public class ThreadTest {
     private long infiniteSleepThreadTime;
 
     private SleepThread A;
-    private FiniteJoinThread B;
+    private InfiniteJoinThread B;
     private InfiniteSleepThread C;
 
     @BeforeEach
@@ -20,7 +20,7 @@ public class ThreadTest {
         currentSleepTime = 500;
 
         A = new SleepThread(sleepThreadSleepTime);
-        B = new FiniteJoinThread(A);
+        B = new InfiniteJoinThread(A);
         C = new InfiniteSleepThread(infiniteSleepThreadTime);
     }
     @AfterEach
@@ -30,7 +30,7 @@ public class ThreadTest {
     }
 
     @Test
-    @DisplayName("일정시간 동안만 Sleeping 하는 thread(A) 에 대해 join() 을 호출한 스레드(B)의 상태를 확인한다")
+    @DisplayName("일정시간 동안만 Sleeping 하는 thread(A) 에 대해 join() 을 호출한 스레드(B)의 join 직후 상태를 확인한다")
     public void checkJoinCallingThreadState(){
         // when
         B.start();
@@ -38,11 +38,11 @@ public class ThreadTest {
             Thread.sleep(currentSleepTime);
         }catch (InterruptedException e){
         }
-        // then
+        // then : A 는 일정시간 동안만 sleep 하지만, 아직 완료되지 않았음 -> B는 waiting 상태
         Assertions.assertEquals(Thread.State.WAITING,B.getState());
     }
     @Test
-    @DisplayName("sleep,wait,join 상태인 스레드(B)에 대해 join()을 호출한 스레드(B)에서 join() 이후 연산이 실행될 때 B 스레드의 상태 ")
+    @DisplayName("sleep,wait,join 상태인 스레드(B)에 대해 join()을 호출한 스레드(D)에서 join() 이후 연산이 실행될 때 B 스레드의 상태 ")
     public void interruptJoinCallingThread(){
         // when
         B.start();
@@ -77,13 +77,15 @@ public class ThreadTest {
             Thread.sleep(currentSleepTime);
             C.join(currentJoinTime);
         }catch (InterruptedException e){}
+        // then
         // A 의 completion 이 일어나지 않았더라도 join(millisec) 가 리턴되어오기 때문
+        // 이는 join() 을 호출하지 않았을 때랑 똑같은 결과인 것.
         Assertions.assertEquals(Thread.State.TIMED_WAITING,C.getState());
     }
 
 
     @Test
-    @DisplayName("무한루프를 돌며 sleep 중인 스레드(C) 에 interrupt를 건다")
+    @DisplayName("무한루프를 돌며 sleep 중인 스레드(C) 에 interrupt 를 건다")
     public void interruptInfiniteSleepThread(){
 
         // when
@@ -93,7 +95,7 @@ public class ThreadTest {
             C.interrupt();
             Thread.sleep(currentSleepTime);
         }catch (InterruptedException e){}
-        //then
+        //then : 오해가 있었음. 이미 thread C 는 sleep 으로 인해 TIMED_WAITING 상태 -> 여기에 굳이 join 을 호출하지 않고 interrupt()를 걸어줘도 되는 거였음. 따라서 당연히 이 테스트는 성공한다.
         Assertions.assertEquals(Thread.State.TERMINATED,C.getState());
     }
 

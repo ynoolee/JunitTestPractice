@@ -1,10 +1,10 @@
 package com.example.test.test.learnjava.thread;
 
-public class FiniteJoinThread extends Thread{
+public class InfiniteJoinThread extends Thread{
 
     private final Thread thread;
 
-    public FiniteJoinThread(Thread thread) {
+    public InfiniteJoinThread(Thread thread) {
         this.thread = thread;
     }
 
