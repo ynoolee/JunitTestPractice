@@ -2,7 +2,6 @@ package com.example.test.test;
 
 import com.example.test.test.config.AppConfig;
 import com.example.test.test.config.HelloBean;
-import com.example.test.test.config.SameAppConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,5 +1,6 @@
 package com.example.test.test;
 
+import com.example.test.test.config.SameAppConfig;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
