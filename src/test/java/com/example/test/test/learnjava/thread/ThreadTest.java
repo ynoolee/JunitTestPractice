@@ -37,6 +37,7 @@ public class ThreadTest {
         try {
             Thread.sleep(currentSleepTime);
         }catch (InterruptedException e){
+            e.printStackTrace();
         }
         // then : A 는 일정시간 동안만 sleep 하지만, 아직 완료되지 않았음 -> B는 waiting 상태
         Assertions.assertEquals(Thread.State.WAITING,B.getState());
@@ -50,6 +51,7 @@ public class ThreadTest {
             Thread.sleep(currentSleepTime);
             B.join();
         }catch (InterruptedException e){
+            e.printStackTrace();
         }
         // then  : join() 이 리턴되어왔다는 것은, B 의 termination 을 의미하기 때문
         Assertions.assertEquals(Thread.State.TERMINATED,B.getState());
@@ -64,7 +66,9 @@ public class ThreadTest {
         // then
         try{
             Thread.sleep(currentSleepTime);
-        }catch (InterruptedException e){}
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
         Assertions.assertEquals(Thread.State.TIMED_WAITING,C.getState());
     }
     @Test
@@ -76,7 +80,9 @@ public class ThreadTest {
         try{
             Thread.sleep(currentSleepTime);
             C.join(currentJoinTime);
-        }catch (InterruptedException e){}
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
         // then
         // A 의 completion 이 일어나지 않았더라도 join(millisec) 가 리턴되어오기 때문
         // 이는 join() 을 호출하지 않았을 때랑 똑같은 결과인 것.
@@ -94,7 +100,9 @@ public class ThreadTest {
             Thread.sleep(currentSleepTime);
             C.interrupt();
             Thread.sleep(currentSleepTime);
-        }catch (InterruptedException e){}
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
         //then : 오해가 있었음. 이미 thread C 는 sleep 으로 인해 TIMED_WAITING 상태 -> 여기에 굳이 join 을 호출하지 않고 interrupt()를 걸어줘도 되는 거였음. 따라서 당연히 이 테스트는 성공한다.
         Assertions.assertEquals(Thread.State.TERMINATED,C.getState());
     }

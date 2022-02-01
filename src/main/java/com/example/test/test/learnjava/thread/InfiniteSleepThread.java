@@ -14,6 +14,8 @@ public class InfiniteSleepThread extends Thread{
 
                 Thread.sleep(sleepTime);
             }
-        }catch (InterruptedException e){ }
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 }
