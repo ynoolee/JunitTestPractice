@@ -22,7 +22,10 @@ public class GenericUse {
         System.out.println(data.getName());
         return data.getName();
     }
-
+//     wildcard 는 type parameter와 달리 , wildcard 타입 으로 선언된 객체에는, 값일 지정,추가가 불가능하다.
+//    public static void getWildcardCollection(MyCollection<?> collection){
+//         collection.setData("abc");
+//    }
 
     public void main(String[] args) {
         MyCollection<?> collection = new MyCollection<>();
