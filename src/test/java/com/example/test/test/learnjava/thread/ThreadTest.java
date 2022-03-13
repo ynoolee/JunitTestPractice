@@ -7,10 +7,12 @@ public class ThreadTest {
     private long currentSleepTime;
     private long currentJoinTime;
     private long infiniteSleepThreadTime;
+    private long waitForStart;
 
     private SleepThread A;
     private InfiniteJoinThread B;
     private InfiniteSleepThread C;
+    private InfiniteWorkingThread D;
 
     @BeforeEach
     public void initTime(){
@@ -18,15 +20,63 @@ public class ThreadTest {
         infiniteSleepThreadTime = 700;
         currentJoinTime = 500;
         currentSleepTime = 500;
+        waitForStart = 10;
 
         A = new SleepThread(sleepThreadSleepTime);
         B = new InfiniteJoinThread(A);
         C = new InfiniteSleepThread(infiniteSleepThreadTime);
+        D = new InfiniteWorkingThread();
     }
     @AfterEach
     public void clean(){
         A.interrupt();
         C.interrupt();
+        D.toggleStopFlag();
+    }
+    @Test
+    public void 블락상태가아닌스레드에대한_인터럽트는_스레드를_멈추지_못한다(){
+        D.start();
+        try {
+            Thread.sleep(currentSleepTime);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        Assertions.assertEquals(Thread.State.RUNNABLE, D.getState());
+        D.interrupt();
+        Assertions.assertTrue(D.isInterrupted());
+        Assertions.assertEquals(Thread.State.RUNNABLE, D.getState());
+    }
+    /**
+     * interrupt 를 호출한다고 즉시 TERMINATED 되는 것은 아니다
+     * 어떤 스레드를 즉각적으로 멈추게 할 수는 없다.
+     * Interrupting 이라는 것은 기본적으로 스레드에게 " 너 interrupt 되었어 " 라는 메시지를 보내는 것이다.
+     * 또, 특히나 JAVA에서 interrupt를 호출하는 것은 그저 실행중이던 스레드의 flag를 세팅하는 것이다.
+     * 그 스레드에서 interrupt status flag 가 세팅 되었음을 발견(?, check) 해야 한다
+     */
+    /**
+     * Status flag 에 대하여
+     * interrupt() 호출은 interrupt status flag 를 세팅한다.
+     * interrupted 스레드 측 에서 Thread.interrupted()를 호출하여 interrupt 여부에 대한 체크를 할 수 있는데, 이는 interrupt status 를 clear 한다.
+     * */
+
+    @Test
+    public void 블락상태인_스레드에대한_인터럽트는_스레드를_멈춘다(){
+        A.start();
+        try {
+            Thread.sleep(waitForStart);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        Assertions.assertEquals(Thread.State.TIMED_WAITING, A.getState());
+        A.interrupt();
+        Assertions.assertTrue(A.isInterrupted());
+        // interrupt 를 호출한다고 즉시 TERMINATED 되는 것은 아니기 때문에 일정 시간 이후, 스레드의 상태를 확인하자
+        try{
+            Thread.sleep(100);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        Assertions.assertEquals(Thread.State.TERMINATED, A.getState()); // 해당 스레드의 sleep 타임보다 한참 못 미치는 시간이나 TERMINATE되었음을 확인
     }
 
     @Test
