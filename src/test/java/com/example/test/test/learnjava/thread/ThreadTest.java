@@ -69,7 +69,6 @@ public class ThreadTest {
         }
         Assertions.assertEquals(Thread.State.TIMED_WAITING, A.getState());
         A.interrupt();
-        Assertions.assertTrue(A.isInterrupted());
         // interrupt 를 호출한다고 즉시 TERMINATED 되는 것은 아니기 때문에 일정 시간 이후, 스레드의 상태를 확인하자
         try{
             Thread.sleep(100);
