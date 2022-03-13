@@ -75,7 +75,7 @@ public class ThreadTest {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
-        Assertions.assertEquals(Thread.State.TERMINATED, A.getState()); // 해당 스레드의 sleep 타임보다 한참 못 미치는 시간이나 TERMINATE되었음을 확인
+        Assertions.assertEquals(Thread.State.TERMINATED, A.getState()); // 해당 스레드의 sleep 타임보다 한참 못 미치는 시간이나 TERMINATE되었음을 확인_interrupt로인한종료
     }
 
     @Test
