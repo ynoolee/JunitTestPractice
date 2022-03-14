@@ -31,10 +31,8 @@ public class BasicIOReadUtil {
       }
     } catch (IOException e){
       System.err.println(e.getMessage());
-      throw e;
     } catch (Exception e){
       System.err.println(e.getMessage());
-      throw e;
     } finally {
       if (fr != null) fr.close();
     }
@@ -66,19 +64,17 @@ public class BasicIOReadUtil {
           }
         }
       }
-    }catch (IOException e){
+    } catch (IOException e){
       System.err.println(e.getMessage());
-      throw e;
     } catch (Exception e){
       System.err.println(e.getMessage());
-      throw e;
     } finally {
       if (fr != null) fr.close();
     }
     return sb.toString();
   }
 
-  public static ArrayList<String> readBufferedReader(String fileName) throws Exception{
+  public static ArrayList<String> readBufferedReader(String fileName) throws IOException{
     ArrayList<String> list = new ArrayList<>();
     BufferedReader br = null;
     try{
@@ -87,7 +83,6 @@ public class BasicIOReadUtil {
       while ((data = br.readLine()) != null) list.add(data);
     } catch (Exception e){
       System.out.println(e.getMessage());
-      throw e;
     } finally {
       if (br != null) br.close();
     }
