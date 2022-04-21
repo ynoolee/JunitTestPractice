@@ -29,7 +29,7 @@ public class LambdaForPrimitiveTest {
 	}
 
 	@Test
-	public void primitive_타입을_위한_람다와_참조타입에대한_람다사용_비교(){
+	public void primitive_를_위한_람다와_wrapper클래스_를_위한_람다사용_비교(){
 		long start =  0L;
 		start = System.nanoTime();
 		for(int i =0; i < LEN; i++){
@@ -43,5 +43,4 @@ public class LambdaForPrimitiveTest {
 		}
 		System.out.println(System.nanoTime() - start);
 	}
-
 }
